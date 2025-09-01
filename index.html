@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Skibidi</title>
+
+    <!-- Tailwind (play CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              cottonBlue: "#cfe8ff",
+              cottonLavender: "#e5d4ff",
+              cottonPink: "#ffd6e7",
+              ink: "#1f2937",
+              soft: "#6b7280",
+            },
+            boxShadow: {
+              soft: "0 10px 30px -10px rgba(31,41,55,0.2)",
+            },
+            transitionDuration: {
+              160: "160ms",
+              220: "220ms",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- Lottie (confetti at the end) -->
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Button skin (no compile needed) -->
+    <link rel="stylesheet" href="buttons.css" />
+
+    <style>
+      .grain::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.08;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/ filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+        mix-blend-mode: multiply;
+      }
+      #prompt {
+        min-height: 3.25rem;
+      }
+      img.emoji {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+      }
+      [data-hidden="true"] {
+        display: none !important;
+      }
+    </style>
+  </head>
+
+  <body
+    class="min-h-screen bg-gradient-to-br from-cottonBlue via-cottonLavender to-cottonPink selection:bg-cottonPink/60 selection:text-ink/90 grain"
+  >
+    <main class="min-h-screen flex items-center justify-center p-6 md:p-10" id="app">
+      <section
+        class="w-full max-w-xl rounded-3xl bg-white/70 backdrop-blur-md shadow-soft border border-white/40 p-6 md:p-8"
+        aria-live="polite"
+      >
+        <!-- Title -->
+        <header class="mb-4">
+          <h1 class="text-xl font-semibold text-ink text-center">Skibidi</h1>
+        </header>
+
+        <!-- Scene content -->
+        <div
+          id="scene"
+          class="flex flex-col items-center text-center gap-6"
+          role="region"
+          aria-label="Scene"
+        >
+          <!-- Prompt (typewriter; click to fast-forward) -->
+          <button
+            id="prompt"
+            class="text-2xl font-semibold text-ink cursor-pointer transition-colors duration-160 focus:outline-none focus:ring-2 focus:ring-cottonPink/50 rounded"
+            title="Click to fast-forward"
+          ></button>
+
+          <!-- Emoji (animated GIF per scene) -->
+          <img
+            id="emoji"
+            class="emoji w-28 h-28 md:w-32 md:h-32 object-contain drop-shadow-sm transition-transform duration-160"
+            alt="emoji"
+            src="assets/emoji/wave.gif"
+          />
+
+          <!-- Start -->
+          <div id="startWrap" class="flex gap-3" data-hidden="false">
+            <button
+              id="btnStart"
+              class="btn btn--blue hover:-translate-y-0.5 active:translate-y-0 transition-transform duration-160"
+            >
+              Start
+            </button>
+          </div>
+
+          <!-- Choices -->
+          <div
+            id="choices"
+            class="flex flex-wrap items-center justify-center gap-3"
+            data-hidden="true"
+          >
+            <button
+              id="btnPrimary"
+              class="btn btn--blue hover:-translate-y-0.5 active:translate-y-0 transition-transform duration-160"
+            >
+              Primary
+            </button>
+            <button
+              id="btnSecondary"
+              class="btn btn--blue hover:-translate-y-0.5 active:translate-y-0 transition-transform duration-160"
+            >
+              Secondary
+            </button>
+          </div>
+
+          <!-- Microcopy / aside -->
+          <p id="aside" class="text-sm text-soft min-h-5"></p>
+        </div>
+
+        <!-- Footer: scene index only -->
+        <footer class="mt-4 flex items-center justify-center text-xs text-soft">
+          <span id="sceneIndex">Scene 0/9</span>
+        </footer>
+      </section>
+
+      <!-- Confetti mount -->
+      <div id="confetti-root" class="pointer-events-none fixed inset-0"></div>
+    </main>
+
+    <!-- App logic -->
+    <script src="app.js"></script>
+  </body>
+</html>

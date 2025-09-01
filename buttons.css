@@ -1,0 +1,102 @@
+:root {
+  /* Default (neutral blue) */
+  --btn: #6FA3F5;
+  --btn-dark: #4F7CF0;
+  --btn-text: #ffffff;
+}
+
+.btn {
+  position: relative;
+  display: inline-block;
+  padding: 0.75rem 1.25rem; /* works fine alongside Tailwind px/py if present */
+  border-radius: 9999px;
+  color: var(--btn-text);
+  text-transform: none; /* softer than uppercase for this project */
+  font-size: 1rem;
+  letter-spacing: 0.015em;
+  line-height: 1;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 0;
+  transition: color 0.3s ease, transform 0.16s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Base fill layer */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--btn);
+  border-radius: inherit;
+  z-index: -2;
+}
+
+/* Hover darken sweep */
+.btn::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--btn-dark);
+  transition: width 0.3s ease;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+.btn:hover::before,
+.btn:focus-visible::before {
+  width: 100%;
+}
+
+/* Focus visibility */
+.btn:focus-visible {
+  outline: 2px solid var(--btn-dark);
+  outline-offset: 2px;
+}
+
+/* Subtle shadow to match your cozy look (optional) */
+.btn {
+  box-shadow: 0 8px 22px -10px rgba(31, 41, 55, 0.25);
+}
+.btn:hover {
+  box-shadow: 0 12px 28px -12px rgba(31, 41, 55, 0.28);
+}
+
+/* Disabled helper (use via JS during typewriter) */
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* Color variants (no build step needed) */
+.btn--blue,
+[data-variant="blue"] {
+  --btn: #6FA3F5;
+  --btn-dark: #4F7CF0;
+}
+
+.btn--cherry,
+[data-variant="cherry"] {
+  --btn: #FF4D8F;
+  --btn-dark: #E14480;
+}
+
+.btn--purple,
+[data-variant="purple"] {
+  --btn: #B48DFF;
+  --btn-dark: #9B74F0;
+}
+
+/* Optional: a glassy neutral variant if you ever need it */
+.btn--glass,
+[data-variant="glass"] {
+  --btn: rgba(255, 255, 255, 0.7);
+  --btn-dark: rgba(255, 255, 255, 0.85);
+  color: #1f2937; /* ink */
+  box-shadow: 0 8px 22px -10px rgba(31, 41, 55, 0.15);
+}
