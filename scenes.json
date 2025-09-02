@@ -1,0 +1,197 @@
+{
+    "scenes": [
+      { "id": "S0_PEEK", "type": "choices",
+        "prompt": "Hey… how you doing today?",
+        "choices": [
+          { "label": "Good", "to": "S0A_BRING_IT_UP", "micro": "I’m glad", "vibe": 60 },
+          { "label": "Go away", "to": "S0B_ACCOUNTABLE", "micro": "Fair", "vibe": 90 }
+        ]
+      },
+  
+      { "id": "S0A_BRING_IT_UP", "type": "single",
+        "prompt": "I messed up. Can I say this properly?",
+        "next": "S1_FEEL", "vibeDelta": -4
+      },
+  
+      { "id": "S0B_ACCOUNTABLE", "type": "single",
+        "prompt": "Ouch. That’s fair. I need to hold myself accountable—no running from it today.",
+        "next": "S1_FEEL", "vibeDelta": -2
+      },
+  
+      { "id": "S1_FEEL", "type": "choices",
+        "prompt": "How are you feeling about it now?\nI’m not going to run from it.",
+        "choices": [
+          { "label": "I’m still upset", "to": "S2_ADMIT", "vibe": 90 },
+          { "label": "I can talk", "to": "S2_ADMIT", "vibe": 60 }
+        ]
+      },
+  
+      { "id": "S2_ADMIT", "type": "single",
+        "prompt": "I said something that hurt you. Then I said it again.\nI kept putting it on you. That was wrong. I own it. No excuses.",
+        "next": "S3_VALIDATE", "vibeDelta": -10
+      },
+  
+      { "id": "S3_VALIDATE", "type": "choices",
+        "prompt": "You didn’t deserve that. That’s not what a friend does. I made you upset and brushed past your feelings. I was a jerk for that.",
+        "choices": [
+          { "label": "Mhm, go on. Say it.", "to": "S11_CLARITY", "vibeDelta": -6 },
+          { "label": "I’m not buying it.", "to": "S_NEG1_PUSH", "vibeDelta": 6, "intercept": "POP_NEG_LIGHT" }
+        ]
+      },
+  
+      { "id": "S11_CLARITY", "type": "choices",
+        "prompt": "I shouldn’t have blamed you. I didn’t mean to, but I still did—and I’m ashamed of it. I didn’t even stop to think about how it made you feel. That’s not what a friend does.",
+        "choices": [
+          { "label": "Yeah, I hear you.", "to": "S4_PROMISE", "vibeDelta": -6 },
+          { "label": "But you did hurt me.", "to": "S_NEG1_PUSH", "vibeDelta": 4, "intercept": "POP_NEG_LIGHT" }
+        ]
+      },
+  
+      { "id": "S_NEG1_PUSH", "type": "choices",
+        "prompt": "Fair. I deserve that.\nI can’t ask you to forget it—honestly, I might not forget it either.\nAll I’m asking for is a shot to be better. To prove it.",
+        "choices": [
+          { "label": "But do you deserve a second chance?", "to": "S5_SECOND", "vibeDelta": -2 },
+          { "label": "Nah, not really, mister.", "to": "S6_CHOOSE_PATH", "vibeDelta": 2, "intercept": "POP_NEG_LIGHT" },
+          { "label": "Yeah, talk to me.", "to": "S_SM1_TALK", "vibeDelta": -2 }
+        ]
+      },
+  
+      { "id": "S_SM1_TALK", "type": "single",
+        "prompt": "Be honest—I was a complete jerk, wasn’t I?",
+        "next": "S_SM1B_TALK", "vibeDelta": -3
+      },
+      { "id": "S_SM1B_TALK", "type": "single",
+        "prompt": "I brushed past your feelings, didn’t I?",
+        "next": "S_SM1C_TALK", "vibeDelta": -3
+      },
+      { "id": "S_SM1C_TALK", "type": "choices",
+        "prompt": "That isn’t what a friend does.\nBe straight with me—did you expect that from me?",
+        "choices": [
+          { "label": "No, but you did.", "to": "S4_PROMISE", "vibeDelta": -4 },
+          { "label": "Kinda did.", "to": "S4_PROMISE", "vibeDelta": -2 },
+          { "label": "I’m still annoyed.", "to": "S6_CHOOSE_PATH", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" }
+        ]
+      },
+  
+      { "id": "S4_PROMISE", "type": "single",
+        "prompt": "Here’s what changes from me, starting now:\n1) I won’t put someone else’s actions on you.\n2) I won’t repeat a point after you’ve answered. If I catch it, I stop and own it.\n3) No arguing to win. I listen and respect what you tell me.\n4) If I even hint at that blame again, you can call it and end the chat. I won’t push back.",
+        "next": "S4A_ANCHOR", "vibeDelta": -8
+      },
+  
+      { "id": "S4A_ANCHOR", "type": "single",
+        "prompt": "I can’t deny what I did, and I can’t justify how I made you feel. The only thing I can do is be a better friend and prove it with my actions.",
+        "next": "S5_SECOND", "vibeDelta": -4
+      },
+  
+      { "id": "S5_SECOND", "type": "choices",
+        "prompt": "I don’t expect you to give me a chance again—you don’t owe me that.\nBut I will commit to it with everything I’ve got, and prove it.",
+        "choices": [
+          { "label": "Yes", "to": "E_YAY", "vibe": 0, "gimmick": "soften", "micro": "let’s move forward" },
+          { "label": "Maybe—earn it", "to": "S4B_PROMISE_PLUS", "vibeDelta": -3, "micro": "one more promise" },
+          { "label": "Not yet", "to": "S6_CHOOSE_PATH", "vibeDelta": 2, "gimmick": "shake", "intercept": "POP_NEG_LIGHT" }
+        ]
+      },
+  
+      { "id": "S4B_PROMISE_PLUS", "type": "choices",
+        "prompt": "I’ll back this up. I’ll keep blame out of my mouth, slow down before I speak, and if I slip, I’ll stop and fix it right there… please? Just this once.",
+        "choices": [
+          { "label": "Okay, that helps", "to": "E_SOFT_OK", "vibe": 5 },
+          { "label": "Still not enough", "to": "S6_CHOOSE_PATH", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" }
+        ]
+      },
+  
+      { "id": "S6_CHOOSE_PATH", "type": "choices",
+        "prompt": "I understand. I can make amends the way you want—or just give you space. Your call.",
+        "choices": [
+          { "label": "Small steps", "to": "S_STEPS", "vibeDelta": -4, "gimmick": "dodge", "micro": "you decide" },
+          { "label": "Space for now", "to": "S_SPACE", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" },
+          { "label": "One last thing…", "to": "S_HEART", "vibeDelta": -2 }
+        ]
+      },
+  
+      { "id": "S_STEPS", "type": "collect",
+        "prompt": "Tell me what would help. I’ll stick to it.\nAdd simple points. I’ll follow your lead.",
+        "collect": {
+          "min": 1,
+          "placeholder": "Add a step…",
+          "reactions": [
+            "OOOH! yeah girl, that’ll teach him!",
+            "devious!!",
+            "He better.",
+            "Certified W.",
+            "Lock it in.",
+            "Noted. No backtalk."
+          ]
+        },
+        "choices": [
+          { "label": "Continue", "to": "E_SOFT_STEPS" },
+          { "label": "Not now", "to": "S_SPACE" }
+        ]
+      },
+  
+      { "id": "S_SPACE", "type": "choices",
+        "prompt": "Yeah, fair. I guess this isn’t easily forgivable after all. I’m here to listen and be better.\nPick up where we left, whenever. Thanks for hearing me at all.",
+        "choices": [
+          { "label": "End for now", "to": "E_SPACE" },
+          { "label": "One last thing…", "to": "S_TUG" }
+        ]
+      },
+  
+      { "id": "S_TUG", "type": "choices",
+        "prompt": "But then who’s gonna carry me in those Roblox horror games… I hate to admit it, but you’re pretty good.",
+        "choices": [
+          { "label": "🤣 Yeah? Go on.", "to": "S_PRAISE1", "vibeDelta": -3 },
+          { "label": "🧐 Oh yeah? Didn’t you say you’re better?", "to": "S_REASSURE", "vibeDelta": -2 }
+        ]
+      },
+  
+      { "id": "S_REASSURE", "type": "single",
+        "prompt": "I did… but deep down, we both know we’re a team.",
+        "next": "S_PRAISE1", "vibeDelta": -2
+      },
+  
+      { "id": "S_PRAISE1", "type": "single",
+        "prompt": "Ugh, fine—you’ve got the brains.",
+        "next": "S_PRAISE2", "vibeDelta": -2
+      },
+      { "id": "S_PRAISE2", "type": "single",
+        "prompt": "And I’ve got the eyes. I literally cover mine when the monsters show up.",
+        "next": "S_PRAISE3", "vibeDelta": -2
+      },
+      { "id": "S_PRAISE3", "type": "choices",
+        "prompt": "We do make a pretty good duo, don’t we…\nAnd Roblox plus momo chicken is kinda goated. Think about it… please?",
+        "choices": [
+          { "label": "Okay, fine", "to": "S5_SECOND", "vibeDelta": -3 },
+          { "label": "Not yet", "to": "S6_CHOOSE_PATH", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" }
+        ]
+      },
+  
+      { "id": "S_HEART", "type": "choices",
+        "prompt": "I just miss our normal, man. I don’t want to lose another friend. I’m not great at saying what I feel, but I do feel it—and right now it’s regret and shame.\nI wish I hadn’t said any of it and risked what we have. I can only ask you to overlook my blunder and give me one last chance. Last means last.\nIf I mess this up again, that’s on me—no excuses.\nPlease? Pretty please?",
+        "choices": [
+          { "label": "Okay. One last chance.", "to": "E_SOFT_OK" },
+          { "label": "Compromise: make amends", "to": "S_STEPS" }
+        ]
+      },
+  
+      { "id": "E_YAY", "type": "ending",
+        "prompt": "Thank you for giving me another chance. You don’t owe me that, and I’m grateful you chose it.\nI’m not asking you to forget it. I’m promising you won’t face that from me again. If I slip, I stop, own it, and fix it.\nThanks for trusting me. I’ll be a friend you can trust.\nRoblox partners again? No more 8am runs though, you know I get late...",
+        "effects": ["confetti","lockUI"]
+      },
+  
+      { "id": "E_SOFT_OK", "type": "ending",
+        "prompt": "Okay. I’ll earn it and keep it steady. Thanks for letting me show you.",
+        "effects": ["softConfetti","lockUI"]
+      },
+  
+      { "id": "E_SOFT_STEPS", "type": "ending",
+        "prompt": "Small steps. I’ll stick to what you wrote and keep it simple. No pressure, no tests. Thanks for giving me a way forward.",
+        "effects": ["softGlow","lockUI"]
+      },
+  
+      { "id": "E_SPACE", "type": "ending",
+        "prompt": "Thanks for hearing me out at all. Door's always open.",
+        "effects": ["blackout"]
+      }
+    ]
+  }

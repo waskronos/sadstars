@@ -76,8 +76,8 @@
 /* Color variants (no build step needed) */
 .btn--blue,
 [data-variant="blue"] {
-  --btn: #6FA3F5;
-  --btn-dark: #4F7CF0;
+  --btn: #3375df;
+  --btn-dark: #20439b;
 }
 
 .btn--cherry,
