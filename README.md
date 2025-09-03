@@ -1,4 +1,4 @@
 # sadstars
-A mistake and one last chance
+A mistake and my feeble attempt to apologise
 
 A personal project.

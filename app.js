@@ -170,10 +170,26 @@ async function typeText(elText, full) {
   cursor.className = 'cursor';
   cursor.textContent = '|';
   elText.appendChild(cursor);
-  const base = 22;
+  const base = 30;
+  const pause1char = '\u200B';
+  const pause2char = '\u200C';
+  const pause3char = '\u200D';
+
   let stumbleCounter = 0;
   for (let i = 0; i < full.length; i++) {
     const ch = full[i];
+    if (ch === pause1char) {
+      await sleep(1300); 
+      continue;
+    }
+    if (ch == pause2char) {
+      await sleep(1100);
+      continue;
+    }
+    if (ch === pause3char) {
+      await sleep(900);
+      continue;
+    }
     cursor.before(ch);
     let delay = base + Math.random() * 18;
     if (/[.,!?]/.test(ch) && Math.random() < 0.35) delay += 160 + Math.random() * 220;

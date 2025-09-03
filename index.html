@@ -25,23 +25,23 @@
       },
 
       { "id": "S0_ST1", "type": "choices",
-        "prompt": "I mean... You know I'm real bad at communicating. It's honestly INSANE how I mess up BOTH face to face, AND ON text. Holy nervousness... So well.. I still wanted to say whatever I wanted to, while giving you the apology you deserve. So... here it is. \n\nAlso, I know long texts are scary, so this would be fun!",
+        "prompt": "I mean... You know I'm real bad at communicating. It's honestly INSANE how I mess up BOTH face to face, AND ON text. Holy nervousness... So well.. I'm still going to say whatever I wanted to, while giving you the apology you deserve. So... here it is.\u200B \n\nAlso, I know long texts are scary, so this would be fun!",
         "choices": [
           { "label": "Uh huh.. Kinda fancy", "to": "S0_ST2", "micro": "i mean.. im kinda cool like that", "vibe": 60 }
         ]
       },
 
       { "id": "S0_ST2", "type": "choices",
-        "prompt": "Besides... This should prove something right... I really am trying here, really put in my 100% for this apology!\nAnd hey, if anything goes wrong... I'm just a few lines of code, don't blame me.. Blame that guy. He could really use that punch in the nose from Monday.",
+        "prompt": "Besides... This should prove something right... I really am trying here, really put in my 100% for this apology..\nAnd if anything goes wrong... I'm just a few lines of code, don't blame me.. Blame that guy. He could really use that punch in the nose from Monday.",
         "choices": [
           { "label": "Haha, yeah, go on, what's up?", "to": "S0_PEEK", "vibe": 60 }
         ]
       },
 
       { "id": "S0_PEEK", "type": "choices",
-        "prompt": "So, how you doing this fine day? The weather's nice, right? Not too hot, not too cold. Just right. Kinda like Goldilocks and the three bears, but you know, without the bears. Or the porridge. Or the whole story really. Uh.. Um.. So yeah.. How's it going?",
+        "prompt": "So, how you doing this fine day? The weather's nice, right? Not too hot, not too cold. Just right. Kinda like Goldilocks and the three bears, but you know...\u200C Without the bears. \u200COr the porridge. \u200COr the whole story really. Uh.. \u200BUm... \u200BSo yeah.. How's it going?",
         "choices": [
-          { "label": "I'm doing good, mhm.", "to": "S0A_BRING_IT_UP", "micro": "I'm glad to hear", "vibe": 60 },
+          { "label": "I'm doing good, mhm.", "to": "S0A_BRING_IT_UP", "micro": "I'm glad to hpear", "vibe": 60 },
           { "label": "Nuh-uh, go away.", "to": "S0B_ACCOUNTABLE", "micro": "Fair", "vibe": 90 }
         ]
       },
@@ -129,8 +129,16 @@
         ]
       },
 
+      { "id": "S1_PLEAD", "type": "choices",
+        "prompt": "Please man, I feel like absolute trash already... And yeah I probably deserve that. But all I ask of you is to listen, to give me a chance to put things right. I definitely don’t give the most 'prestigious' apologies... but don't think for a second my heart's not in it. I'm here to show you I've got a soul and a conscience ready to do better. Please.",
+        "choices": [
+          { "label": "Mhm, go on.", "to": "S2_ADMIT", "vibeDelta": -5 },
+          { "label": "Not that easy to convince me", "to": "S2_ADMIT", "vibeDelta": -5}
+        ]
+      },
+
       { "id": "S2_ADMIT", "type": "single",
-        "prompt": "Yeah... and rightfully so.. I mean, I said something that hurt you. Then I said it again... and again.\nI kept putting it on you, even when that wasn't true at all. That was wrong. As much as I wish I could deny it... I own it. No excuses.",
+        "prompt": "Yeah... you're completely valid in all that you feel... I mean, I said something that hurt you. Then I said it again... and again.\nI kept putting it on you, even when that wasn't true at all. That was wrong. As much as I wish I could deny it... I own it. No excuses.",
         "next": "S3_VALIDATE", "vibeDelta": -10
       },
 
