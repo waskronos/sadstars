@@ -6,17 +6,11 @@ const state = {
   vibeAnimated: 70,
   fillCurrent: 30,
   fillTarget: 30,
-  emojiByBand: {
-    hot: 'assets/angry_meme.png',
-    warm: 'assets/annoyed_meme.png',
-    ok: 'assets/neutral_meme.png',
-    calm: 'assets/soft_meme.png',
-    party: 'assets/party_meme.png'
-  },
+  currentKuromiExpression: 'curious',
   interceptLines: [
     "Man, really? So… no more Roblox with me?",
     "Hold up… no more momo chicken Uber Eats?",
-    "Dang. Not even a quick library hi while I’m stuck there?"
+    "Dang. Not even a quick library hi while I'm stuck there?"
   ]
 };
 
@@ -62,12 +56,17 @@ function goTo(id, opts = {}) {
   const scene = findScene(id);
   if (!scene) return;
   if (state.currentId) {
-    state.history.push({ id: state.currentId, vibe: state.vibe });
+    state.history.push({ id: state.currentId, vibe: state.vibe, kuroExpression: state.currentExp });
   }
   state.currentId = id;
   if ('vibe' in scene) state.vibe = clamp(scene.vibe, 0, 100);
   if ('vibeDelta' in scene) state.vibe = clamp(state.vibe + scene.vibeDelta, 0, 100);
+  if (scene.defExp) {
+    setKuromiExpression(scene.defExp);
+  }
   renderScene(scene, opts);
+  updateChar(state.currentId);
+  attachHover();
   updateBackVisibility();
   updateVibeTargets();
 }
@@ -78,6 +77,9 @@ function onBack() {
   state.currentId = prev.id;
   state.vibe = prev.vibe;
   const scene = findScene(prev.id);
+  if (prev.kuromiExpression) {
+    setKuromiExpression(prev.kuromiExpression);
+  }
   renderScene(scene, { eraseBefore: false });
   updateBackVisibility();
   updateVibeTargets();
@@ -99,9 +101,19 @@ async function renderScene(scene, { eraseBefore = true } = {}) {
   textWrap.className = 'text fit-down';
   el.content.innerHTML = '';
   el.content.appendChild(textWrap);
+  setKuromiSpeech('');
+  
+  if (scene.defExp) {
+    setKuromiExpression(scene.defExp);
+    state.currentKuromiExpression = scene.defExp;
+  } else {
+    setExpression('default', scene.id);
+  }
+  
   if (eraseBefore) { await typeErase(textWrap); }
   await typeText(textWrap, text);
   fitTextDown(textWrap, el.content);
+  
   if (scene.type === 'single') {
     const btn = makeButton('...', 'btn fancy more');
     btn.addEventListener('click', async () => {
@@ -119,17 +131,17 @@ async function renderScene(scene, { eraseBefore = true } = {}) {
   } else if (scene.type === 'collect') {
     renderCollect(scene);
   }
+  
   if (scene.type === 'single' || scene.type === 'choices') {
     fitActionButtons(el.actions);
   }
+  
   if (scene.id?.startsWith('E_') || scene.type === 'ending') {
     renderEnding(scene.id);
   }
+  
   el.back.disabled = false;
-}
-
-if (scene.id?.startsWith('E_') || scene.type === 'ending') {
-  renderEnding(scene.id);
+  attachHover();
 }
 
 async function eraseThenNext(nextId) {
@@ -150,6 +162,14 @@ function makeChoice(choice) {
   const b = document.createElement('button');
   b.className = 'btn fancy choice';
   b.innerHTML = `<span>${escapeHtml(choice.label)}</span>` + (choice.micro ? `<span class="micro">${escapeHtml(choice.micro)}</span>` : '');
+  
+  if (choice.mood) {
+    b.setAttribute('data-mood', choice.mood);
+  }
+  if (choice.micro) {
+    b.setAttribute('data-micro', choice.micro);
+  }
+  
   b.addEventListener('click', async (ev) => {
     if ('vibe' in choice) state.vibe = clamp(choice.vibe, 0, 100);
     if ('vibeDelta' in choice) state.vibe = clamp(state.vibe + choice.vibeDelta, 0, 100);
@@ -161,6 +181,7 @@ function makeChoice(choice) {
     await typeErase(el.content.querySelector('.text'));
     goTo(choice.to, { eraseBefore: false });
   });
+
   return b;
 }
 
@@ -229,6 +250,29 @@ function fitTextDown(textEl, containerEl) {
   while (textEl.scrollHeight > containerEl.clientHeight && size > min) {
     size -= 1;
     textEl.style.fontSize = size + 'px';
+  }
+}
+
+function fitActionButtons(actionsEl) {
+  const buttons = actionsEl.querySelectorAll('.btn');
+  if (buttons.length <= 1) return;
+  
+  buttons.forEach(btn => {
+    btn.style.fontSize = '';
+    btn.style.padding = '';
+  });
+  
+  if (actionsEl.scrollHeight <= actionsEl.clientHeight) return;
+  
+  let size = 16;
+  const minSize = 12;
+  
+  while (actionsEl.scrollHeight > actionsEl.clientHeight && size > minSize) {
+    size--;
+    buttons.forEach(btn => {
+      btn.style.fontSize = size + 'px';
+      btn.style.padding = '8px 12px';
+    });
   }
 }
 
@@ -311,9 +355,8 @@ function pushToastNear(anchorEl, text) {
 
 function updateVibeTargets() {
   state.fillTarget = clamp(100 - state.vibe, 0, 100);
-  document.getElementById('vibeEmoji').src = emojiSrc(getBand(state.vibe));
 }
-function emojiSrc(band){ return state.emojiByBand[band] }
+
 function tick() {
   state.fillCurrent += (state.fillTarget - state.fillCurrent) * 0.12;
   state.vibeAnimated += (state.vibe - state.vibeAnimated) * 0.1;
@@ -330,6 +373,7 @@ function getBand(v) {
   if (v > 0) return 'calm';
   return 'party';
 }
+
 function vibeColor(v) {
   const green = [52, 211, 153];
   const amber = [245, 158, 11];
@@ -344,6 +388,7 @@ function vibeColor(v) {
   }
   return `rgb(${c[0]|0}, ${c[1]|0}, ${c[2]|0})`;
 }
+
 function lerpColor(a, b, t) {
   return [
     a[0] + (b[0]-a[0]) * t,
@@ -383,17 +428,202 @@ function attachDodge(btn) {
 }
 
 function renderEnding(id) {
-  if (id === 'E_SPACE') {
-    const overlay = document.createElement('div');
-    overlay.className = 'blackout';
-    overlay.innerHTML = `<div class="center">Thanks for hearing me out at all. Door's always open.</div>`;
-    document.body.appendChild(overlay);
-    requestAnimationFrame(() => overlay.classList.add('show'));
-    setTimeout(() => {
-      overlay.classList.remove('show');
-      setTimeout(() => overlay.remove(), 800);
-    }, 2800);
+  const scene = findScene(id);
+  if (!scene || !scene.effects || !scene.effects.length) {
+    console.warn(`No effects found for ending: ${id}`);
+    return;
   }
+  
+  scene.effects.forEach((effect, index) => {
+    setTimeout(() => {
+      triggerEffect(effect, scene);
+    }, index * 200);
+  });
+}
+
+function triggerEffect(effect, scene) {
+  switch (effect) {
+    case 'confetti':
+      createConfetti(100, true);
+      break;
+    case 'softConfetti':
+      createConfetti(50, false);
+      break;
+    case 'softGlow':
+      const card = document.getElementById('card');
+      card.classList.add('soft-glow');
+      setTimeout(() => card.classList.remove('soft-glow'), 3000);
+      break;
+    case 'blackout':
+      const content = document.getElementById('content');
+      content.classList.add('fade-out');
+      setTimeout(() => {
+        content.innerHTML = '<div class="text centered">Thanks for your time.</div>';
+        content.classList.remove('fade-out');
+      }, 1000);
+      break;
+    case 'lockUI':
+      document.querySelectorAll('.btn').forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('disabled');
+      });
+      break;
+    default:
+      console.warn(`Unknown effect: ${effect}`);
+  }
+}
+
+function createConfetti(count, isIntense) {
+  const container = document.createElement('div');
+  container.className = 'confetti-container';
+  document.body.appendChild(container);
+  
+  const colors = ['#ff718d', '#fdff6a', '#5dfdcb', '#7cb2ff', '#cb6eff'];
+  const shapes = ['circle', 'square', 'triangle'];
+  
+  for (let i = 0; i < count; i++) {
+    const confetti = document.createElement('div');
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const shape = shapes[Math.floor(Math.random() * shapes.length)];
+    
+    confetti.className = `confetti ${shape}`;
+    confetti.style.backgroundColor = color;
+    confetti.style.left = Math.random() * 100 + 'vw';
+    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    confetti.style.animationDelay = Math.random() * 2 + 's';
+    
+    container.appendChild(confetti);
+  }
+  
+  if (isIntense) {
+    const card = document.getElementById('card');
+    card.classList.add('pulse');
+    setTimeout(() => card.classList.remove('pulse'), 1000);
+  }
+  
+  setTimeout(() => {
+    container.classList.add('fade-out');
+    setTimeout(() => container.remove(), 1000);
+  }, 6000);
+}
+
+const expressionMap = {
+  default:{
+    'TALK': 'curious',
+    'ADMIT': 'sad',
+    'PLEAD': 'plead',
+    'PROMISE': 'serious',
+    'STALK': 'playful',
+    'SPACE': 'understanding',
+    'REFLECT': 'grateful',
+    'HAPPY': 'party',
+    'DEFAULT':'cool'
+  },
+  hover:{
+    'smh':'annoyed',
+    'why':'sadder',
+    'youknow':'guilty',
+    'toast1':'sass1',
+    'toast2':'sass2',
+    'toast3':'sass3',
+    'sass':'cool',
+    'goon':'question',
+    'grin':'grin',
+    'hurt':'sad',
+    'scared':'scared',
+    'surprised':'woah',
+    'aww':'care',
+    'support':'supportive',
+    'giggle':'hehe'
+  }
+};
+
+function setKuromiExpression(imageName) {
+  const expressionEl = document.getElementById('kuromiExpression');
+  if (expressionEl) {
+    expressionEl.src = `assets/kuromi/${imageName}.gif`;
+    state.currentKuromiExpression = imageName;
+  }
+}
+
+function setKuromiSpeech(text) {
+  const speech = document.getElementById('kuromispeech');
+  if (speech) {
+    speech.textContent = text || '';
+    speech.style.display = text ? 'flex' : 'none';
+  }
+}
+
+function updateChar(sceneId) {
+  setExpression('default', sceneId);
+  setKuromiSpeech('');
+}
+
+function setExpression(type, context) {
+  let expression = expressionMap.default.DEFAULT;
+  
+  if (type === 'default') {
+    for (const [key, value] of Object.entries(expressionMap.default)) {
+      if (context && context.includes(key)) {
+        expression = value;
+        break;
+      }
+    }
+    
+    const currentScene = findScene(context);
+    if (currentScene && currentScene.defExp) {
+      expression = currentScene.defExp;
+    }
+  } 
+  else if (type === 'hover') {
+    for (const [key, value] of Object.entries(expressionMap.hover)) {
+      if (context && context.toLowerCase().includes(key.toLowerCase())) {
+        expression = value;
+        break;
+      }
+    }
+  }
+  
+  setKuromiExpression(expression);
+}
+
+function attachHover() {
+  document.querySelectorAll('.btn.choice').forEach(btn => {
+    const mood = btn.getAttribute('data-mood');
+    const micro = btn.getAttribute('data-micro');
+    
+    btn.addEventListener('mouseenter', () => {
+      if (mood) {
+        setKuromiExpression(mood);
+      } else if (micro) {
+        setExpression('hover', micro);
+      }
+      if (micro) {
+        setKuromiSpeech(micro);
+      }
+    });
+    
+    btn.addEventListener('mouseleave', () => {
+      const currentScene = findScene(state.currentId);
+      if (currentScene && currentScene.defExp) {
+        setKuromiExpression(currentScene.defExp);
+      } else {
+        setExpression('default', state.currentId);
+      }
+      setKuromiSpeech('');
+    });
+    
+    btn.addEventListener('touchstart', () => {
+      if (mood) {
+        setKuromiExpression(mood);
+      } else if (micro) {
+        setExpression('hover', micro);
+      }
+      if (micro) {
+        setKuromiSpeech(micro);
+      }
+    });
+  });
 }
 
 function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }

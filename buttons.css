@@ -100,3 +100,115 @@
   color: #1f2937; /* ink */
   box-shadow: 0 8px 22px -10px rgba(31, 41, 55, 0.15);
 }
+
+/* Effects for ending */
+/* Blackout effect (already implemented) */
+.blackout {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  z-index: 1000;
+}
+
+.blackout.show {
+  opacity: 1;
+}
+
+.blackout .center {
+  color: white;
+  font-size: 1.5rem;
+  text-align: center;
+  max-width: 80%;
+  line-height: 1.5;
+}
+
+/* Confetti container */
+.confetti-container {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.confetti-container.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+/* Confetti pieces */
+.confetti {
+  position: absolute;
+  top: -10px;
+  width: 10px;
+  height: 10px;
+  opacity: 0.8;
+  animation: fall linear forwards;
+}
+
+.confetti.circle {
+  border-radius: 50%;
+}
+
+.confetti.square {
+  transform: rotate(45deg);
+}
+
+.confetti.triangle {
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 15px solid;
+  background-color: transparent !important;
+}
+
+.confetti.triangle::after {
+  content: '';
+  position: absolute;
+  background-color: inherit;
+}
+
+/* Soft glow effect */
+.glow-effect {
+  box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.2),
+              0 0 40px 20px rgba(255, 223, 127, 0.1),
+              0 0 60px 30px rgba(255, 177, 81, 0.05);
+  transition: box-shadow 0.5s ease;
+}
+
+.glow-fade {
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 3s ease;
+}
+
+/* Pulse effect for intense confetti */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 0.5s ease 2;
+}
+
+/* Falling animation for confetti */
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0.3;
+  }
+}

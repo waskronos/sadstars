@@ -80,11 +80,66 @@ html,body{
 
 #app{
   position:relative; z-index:1;
-  min-height:100%;
+  min-height:100vh;
+  padding:2rem;
+  transform: translateX(-6%);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  padding:40px 20px;
 }
 
+.character-frame {
+  position: absolute;
+  right: -250px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 230px;
+  height: 230px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+}
+
+.character-image {
+  width: 100%;
+  height: 75%; /* Reduced from 80% to give more space to speech bubble */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+#kuromiExpression {
+  width: auto; /* Let width adjust automatically */
+  height: 90%; /* Slightly smaller than container */
+  object-fit: contain; /* Better than scale-down for consistent sizing */
+  display: block;
+  margin: 0 auto;
+}
+
+#kuromispeech {
+  height: 25%; /* Increased from implicit 20% */
+  min-height: 45px;
+  margin: 5px 10px 10px 10px; /* Added top margin for spacing */
+}
+
+.speech-bubble {
+  background-color: #fff6f9;
+  border: 2px solid #ff9cc7;
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin: 0 10px 10px 10px;
+  font-size: 0.9rem;
+  text-align: center;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
 .card{
   position:relative;
   width: 860px; max-width: 94vw;

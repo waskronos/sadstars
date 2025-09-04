@@ -7,25 +7,47 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="preload" as="image" href="assets/neutral.png">
-  <link rel="preload" as="image" href="assets/angry.png">
-  <link rel="preload" as="image" href="assets/annoyed.png">
-  <link rel="preload" as="image" href="assets/soft.png">
-  <link rel="preload" as="image" href="assets/party.png">
-  <link rel="preload" as="image" href="assets/plead.png">
+  <link rel="stylesheet" href="effects.css">
+  <link rel="preload" as="image" href="assets/kuromi/angry.gif">
+  <link rel="preload" as="image" href="assets/kuromi/annoyed.gif">
+  <link rel="preload" as="image" href="assets/kuromi/care.gif">
+  <link rel="preload" as="image" href="assets/kuromi/cool.gif">
+  <link rel="preload" as="image" href="assets/kuromi/curious.gif">
+  <link rel="preload" as="image" href="assets/kuromi/grateful.gif">
+  <link rel="preload" as="image" href="assets/kuromi/grin.gif">
+  <link rel="preload" as="image" href="assets/kuromi/guilty.gif">
+  <link rel="preload" as="image" href="assets/kuromi/hehe.gif">
+  <link rel="preload" as="image" href="assets/kuromi/huh.gif">
+  <link rel="preload" as="image" href="assets/kuromi/party.gif">
+  <link rel="preload" as="image" href="assets/kuromi/peek.gif">
+  <link rel="preload" as="image" href="assets/kuromi/plead.gif">
+  <link rel="preload" as="image" href="assets/kuromi/playful.gif">
+  <link rel="preload" as="image" href="assets/kuromi/question.gif">
+  <link rel="preload" as="image" href="assets/kuromi/sad.gif">
+  <link rel="preload" as="image" href="assets/kuromi/sadder.gif">
+  <link rel="preload" as="image" href="assets/kuromi/scared.gif">
+  <link rel="preload" as="image" href="assets/kuromi/serious.gif">
+  <link rel="preload" as="image" href="assets/kuromi/supportive.gif">
+  <link rel="preload" as="image" href="assets/kuromi/tease.gif">
+  <link rel="preload" as="image" href="assets/kuromi/understanding.gif">
+  <link rel="preload" as="image" href="assets/kuromi/understood.gif">
+  <script src="effects.js" defer></script>
+  
   <script id="scenes-data" type="application/json">
-  {
+ {
     "scenes": [
       { "id": "S0_SMALLTALK", "type": "choices",
         "prompt": "An apology, what else?",
+        "defExp": "question",
         "choices": [
-          { "label": "What is this, just a letter? Shaking my head.", "to": "S0_ST1", "micro": "its 'smh'!", "vibe": 60 },
-          { "label": "Any reason I should read this?", "to": "S0B_ACCOUNTABLE", "micro": "Fair", "vibe": 90 }
+          { "label": "What is this, just a letter? Shaking my head.", "to": "S0_ST1", "micro": "its 'smh'!", "vibe": 65, "mood":"annoyed" },
+          { "label": "Any reason I should read this?", "to": "S0B_ACCOUNTABLE", "micro": "Fair", "vibe": 85, "mood":"guilty" }
         ]
       },
 
       { "id": "S0_ST1", "type": "choices",
         "prompt": "I mean... You know I'm real bad at communicating. It's honestly INSANE how I mess up BOTH face to face, AND ON text. Holy nervousness... So well.. I'm still going to say whatever I wanted to, while giving you the apology you deserve. So... here it is.\u200B \n\nAlso, I know long texts are scary, so this would be fun!",
+        "defExp": "hehe",
         "choices": [
           { "label": "Uh huh.. Kinda fancy", "to": "S0_ST2", "micro": "i mean.. im kinda cool like that", "vibe": 60 }
         ]
@@ -33,200 +55,225 @@
 
       { "id": "S0_ST2", "type": "choices",
         "prompt": "Besides... This should prove something right... I really am trying here, really put in my 100% for this apology..\nAnd if anything goes wrong... I'm just a few lines of code, don't blame me.. Blame that guy. He could really use that punch in the nose from Monday.",
+        "defExp": "cool",
         "choices": [
-          { "label": "Haha, yeah, go on, what's up?", "to": "S0_PEEK", "vibe": 60 }
+          { "label": "Haha, yeah, go on, what's up?", "to": "S0_PEEK", "vibe": 55 }
         ]
       },
 
       { "id": "S0_PEEK", "type": "choices",
         "prompt": "So, how you doing this fine day? The weather's nice, right? Not too hot, not too cold. Just right. Kinda like Goldilocks and the three bears, but you know...\u200C Without the bears. \u200COr the porridge. \u200COr the whole story really. Uh.. \u200BUm... \u200BSo yeah.. How's it going?",
+        "defExp": "peek",
         "choices": [
-          { "label": "I'm doing good, mhm.", "to": "S0A_BRING_IT_UP", "micro": "I'm glad to hpear", "vibe": 60 },
-          { "label": "Nuh-uh, go away.", "to": "S0B_ACCOUNTABLE", "micro": "Fair", "vibe": 90 }
+          { "label": "I'm doing good, mhm.", "to": "S0A_BRING_IT_UP", "micro": "I'm glad to hear", "vibe": 50, "mood": "supportive" },
+          { "label": "Nuh-uh, go away.", "to": "S0B_ACCOUNTABLE", "micro": "Fair", "vibe": 85, "mood":"guilty" }
         ]
       },
 
       { "id": "S0A_BRING_IT_UP", "type": "single",
         "prompt": "Ooof... I hope this isn't going to spoil the mood... Here goes nothing...\nI messed up. BIG TIME. Can I say this properly for once? Loud and clear..... Or well as loud as text on screen can be, but anyways..",
-        "next": "S1_FEEL", "vibeDelta": -4
+        "defExp": "serious",
+        "next": "S1_FEEL", "vibeDelta": -5
       },
 
       { "id": "S0B_ACCOUNTABLE", "type": "single",
         "prompt": "Ouch.. Is that how we're playing today? Mhm, fair fair.. I'll make my way up.",
-        "next": "F1_TALK", "vibeDelta": -2
+        "defExp": "huh",
+        "next": "F1_TALK", "vibeDelta": 0
       },
 
       { "id": "F1_TALK", "type": "choices",
         "prompt": "Sooo... did you have breakfast today?",
+        "defExp": "curious",
         "choices": [
-        { "label": "Yeah, I did actually", "to": "F1A_TALK", "micro": "Really!?", "vibe": 50 },
-        { "label": "No, not today", "to": "F1B_TALK", "micro": "Thought so.", "vibe": 60 },
-        { "label": "Why do you care?", "to": "F1C_TALK", "micro": "...", "vibe": 70 }
+        { "label": "Yeah, I did actually", "to": "F1A_TALK", "micro": "Really!?", "vibe": 65, "mood":"surprised"},
+        { "label": "No, not today", "to": "F1B_TALK", "micro": "Thought so.", "vibe": 70, "mood":"care" },
+        { "label": "Why do you care?", "to": "F1C_TALK", "micro": "...", "vibe": 80, "mood":"sadder" }
         ]
       },
 
       { "id": "F1A_TALK", "type": "choices",
         "prompt": "Oh did you now? That's impressive honestly... What about water though, I bet haven't had that yet, have you?",
+        "defExp": "peek",
         "choices": [
-        { "label": "I did though", "to": "F2A1_TALK", "micro": "aint no way", "vibe": 40 },
-        { "label": "Yeah... not really", "to": "F2A2_TALK", "micro": "aww", "vibe": 50 }
+        { "label": "I did though", "to": "F2A1_TALK", "micro": "aint no way", "vibe": 60, "mood":"huh" },
+        { "label": "Yeah... not really", "to": "F2A2_TALK", "micro": "aww", "vibe": 70, "mood":"cool" }
         ]
       },
 
       { "id": "F1B_TALK", "type": "choices",
         "prompt": "Ayy, see? How's that going to work out for you now? Come on man, next thing you're getting some 'kArAgE cHiCkeN' from that Manu..? Mena..? Ugh whatever cafe and you'll be lying dead with your head hurting.\nTch Tch Tch.",
+        "defExp": "care",
         "choices": [
-        { "label": "I'm sorry! Wait.. why am *I* apologising?", "to": "F2B1_TALK", "vibe": 50 },
-        { "label": "Yeah true... That was quite the headache", "to": "F2B2_TALK", "micro": "Hmm?", "vibe": 60 }
+        { "label": "I'm sorry! Wait.. why am *I* apologising?", "to": "F2B1_TALK", "vibe": 65, "mood":"hehe" },
+        { "label": "Yeah true... That was quite the headache", "to": "F2B2_TALK", "micro": "Hmm?", "vibe": 70 }
         ]
       },
 
       { "id": "F1C_TALK", "type": "choices",
-        "prompt": "Well... because I feel I have been insensitive. I haven't done anything to show I really care, have I now? In fact, I happen to have done something completely opposite. <i>sigh</i>",
+        "prompt": "Well... because I feel I have been insensitive. I haven't done anything to show I really care, have I now? In fact, I happen to have done something completely opposite. sigh...",
+        "defExp":"serious",
         "choices": [
-        { "label": "What are you getting at...", "to": "S2_ADMIT", "micro": "you already know.", "vibe": 60 },
-        { "label": "Go on.", "to": "S2_ADMIT", "micro": "...", "vibe": 60 }
+        { "label": "What are you getting at...", "to": "S2_ADMIT", "micro": "you already know.", "vibe": 75, "mood":"angry" },
+        { "label": "Go on.", "to": "S2_ADMIT", "micro": "...", "vibe": 70, "mood":"sad"}
         ]
       },
 
       { "id": "F2A1_TALK", "type": "choices",
         "prompt": "Whoa, you did? Dang, I'm impressed, proud even... Food AND Water? You're really taking care of yourself huh?",
         "choices": [
-        { "label": "Mhm, self care also calls for not talking to some... certain people.", "to": "S1_PLEAD", "vibe": 70 }
+        { "label": "Mhm, self care also calls for not talking to some... certain people.", "to": "S1_PLEAD", "vibe": 80, "mood":"sadder" }
         ]
       },
       
       { "id": "F2A2_TALK", "type": "choices",
         "prompt": "Aha! Thought so. You know water is important too, man. You don't want me to tell you again, do you? Dizziness, fainting, headaches.. And next thing, you're getting 'Iced Coffee' from cafe rosa. Anything but water.. You know, you treat water like it's some kind of enemy or something. \nThink of the poor, thirsty kids in some part of the world... And here you are, refusing to drink water. Shame on you.\n Tch Tch Tch.",
+        "defExp": "tease",
         "choices": [
-        { "label": "I'm sorry... Wait.. Why am *I* apologising?", "to": "F2B1_TALK", "vibe": 50 }
+        { "label": "I'm sorry... Wait.. Why am *I* apologising?", "to": "F2B1_TALK", "vibe": 65 }
         ]
       },
 
       { "id": "F2B1_TALK", "type": "single",
         "prompt": "Hehe, I mean, hey.. I forgive you, you know.. I guess you can say, I choose to give you a chance.\nAnd you know... You can choose to, too... Or well.. hear a certain somebody out..",
+        "defExp": "hehe",
         "next": "S1_PLEAD", "vibeDelta": -5
       },
 
       { "id": "F2B2_TALK", "type": "single",
         "prompt": "Right? Was it as bad as the headache I give you though...",
-        "next": "F2B2_STALK", "vibeDelta": -5
+        "defExp": "hehe",
+        "next": "F2B2_STALK", "vibeDelta": -3
       },
 
       { "id": "F2B2_STALK", "type": "choices",
         "prompt": "As much as I hate to admit it... I am a pain to reason with, aren't I... Pretty stubborn too hey.. And almost always for the wrong reasons too..\nBut hey hey, today.. it is for good reasons.... or so I think?",
+        "defExp": "hehe",
         "choices": [
-        { "label": "What are you trying to get at...", "to": "S2_ADMIT", "vibe": 70 }
+        { "label": "What are you trying to get at...", "to": "S2_ADMIT", "vibe": 70, "mood": "serious" }
         ]
       },
 
 
       { "id": "S1_FEEL", "type": "choices",
-        "prompt": "So hey... How are you feeling about it now?\nI’m not going to run from it. I promise. No more... 'beating around the bush', ya know? Be honest really.. I've put you through crap already, think I can take some myself.",
+        "prompt": "So hey... How are you feeling about it now?\nI'm not going to run from it. I promise. No more... 'beating around the bush', ya know? Be honest really.. I've put you through crap already, think I can take some myself.",
+        "defExp": "serious",
         "choices": [
-          { "label": "I’m still upset", "to": "S2_ADMIT", "vibe": 90 },
-          { "label": "I haven't forgotten.. but I can talk", "to": "S2_ADMIT", "vibe": 60 }
+          { "label": "I'm still upset", "to": "S2_ADMIT", "vibe": 85, "mood":"sadder" },
+          { "label": "I haven't forgotten.. but I can talk", "to": "S2_ADMIT", "vibe": 65, "mood":"sad"}
         ]
       },
 
       { "id": "S1_PLEAD", "type": "choices",
-        "prompt": "Please man, I feel like absolute trash already... And yeah I probably deserve that. But all I ask of you is to listen, to give me a chance to put things right. I definitely don’t give the most 'prestigious' apologies... but don't think for a second my heart's not in it. I'm here to show you I've got a soul and a conscience ready to do better. Please.",
+        "prompt": "Please man, I feel like absolute trash already... And yeah I probably deserve that. But all I ask of you is to listen, to give me a chance to put things right. I definitely don't give the most 'prestigious' apologies... but don't think for a second my heart's not in it. I'm here to show you I've got a soul and a conscience ready to do better. Please.",
+        "defExp": "plead",
         "choices": [
-          { "label": "Mhm, go on.", "to": "S2_ADMIT", "vibeDelta": -5 },
-          { "label": "Not that easy to convince me", "to": "S2_ADMIT", "vibeDelta": -5}
+          { "label": "Mhm, go on.", "to": "S2_ADMIT", "vibeDelta": -8, "mood":"supportive" },
+          { "label": "Not that easy to convince me", "to": "S2_ADMIT", "vibeDelta": -2, "mood":"guilty"}
         ]
       },
 
       { "id": "S2_ADMIT", "type": "single",
         "prompt": "Yeah... you're completely valid in all that you feel... I mean, I said something that hurt you. Then I said it again... and again.\nI kept putting it on you, even when that wasn't true at all. That was wrong. As much as I wish I could deny it... I own it. No excuses.",
+        "defExp": "guilty",
         "next": "S3_VALIDATE", "vibeDelta": -10
       },
 
       { "id": "S3_VALIDATE", "type": "choices",
-        "prompt": "You didn’t deserve that at all. That’s not what a friend should do. I made you upset and just completely disregarded your feelings. I was a jerk for that. A piece of shit too.. All that victim blaming when I should have been supporting you... Not putting you down.",
+        "prompt": "You didn't deserve that at all. That's not what a friend should do. I made you upset and just completely disregarded your feelings. I was a jerk for that. A piece of shit too.. All that victim blaming when I should have been supporting you... Not putting you down.",
+        "defExp":"sad",
         "choices": [
-          { "label": "Mhm, keep going.", "to": "S11_CLARITY", "vibeDelta": -6 },
-          { "label": "Not that easy, mister.", "to": "S_NEG1_PUSH", "vibeDelta": 6, "intercept": "POP_NEG_LIGHT" }
+          { "label": "Mhm, keep going.", "to": "S11_CLARITY", "vibeDelta": -8, "mood":"supportive" },
+          { "label": "Not that easy, mister.", "to": "S_NEG1_PUSH", "vibeDelta": 8, "intercept": "POP_NEG_LIGHT", "mood":"angry" }
         ]
       },
 
       { "id": "S11_CLARITY", "type": "choices",
-        "prompt": "I really shouldn’t have blamed you.. Ugh.. I didn’t mean to, granted.. but I still did, and there's no changing that.. and I’m ashamed of it. I didn’t even stop to think about how it made you feel, about how wrong I was... and how upset that could make you.. I was insensitive and selfish.",
+        "prompt": "I really shouldn't have blamed you.. Ugh.. I didn't mean to, granted.. but I still did, and there's no changing that.. and I'm ashamed of it. I didn't even stop to think about how it made you feel, about how wrong I was... and how upset that could make you.. I was insensitive and selfish.",
+        "defExp": "guilty",
         "choices": [
-          { "label": "Yeah, I hear you.", "to": "S4_PROMISE", "vibeDelta": -6 },
-          { "label": "But you did hurt me.", "to": "S_NEG1_PUSH", "vibeDelta": 4, "intercept": "POP_NEG_LIGHT" }
+          { "label": "Yeah, I hear you.", "to": "S4_PROMISE", "vibeDelta": -8, "mood":"supportive" },
+          { "label": "But you did hurt me.", "to": "S_NEG1_PUSH", "vibeDelta": 6, "intercept": "POP_NEG_LIGHT", "mood":"sad" }
         ]
       },
 
       { "id": "S_NEG1_PUSH", "type": "choices",
-        "prompt": "I mean.. Fair. I fully deserve that.\nI can’t expect you to forget it... And honestly, I don't think I can forget it either.\nAll I’m asking for is a shot to be better. To prove that I am more than willing to commit to this friendship, better than I was before.",
+        "prompt": "I mean.. Fair. I fully deserve that.\nI can't expect you to forget it... And honestly, I don't think I can forget it either.\nAll I'm asking for is a shot to be better. To prove that I am more than willing to commit to this friendship, better than I was before.",
         "choices": [
-          { "label": "But DO you deserve another chance??", "to": "S5_SECOND", "vibeDelta": -2 },
-          { "label": "Nah, not really, Mister.", "to": "S6_CHOOSE_PATH", "vibeDelta": 2, "intercept": "POP_NEG_LIGHT" },
-          { "label": "Yeah? talk to me about it.", "to": "S_SM1_TALK", "vibeDelta": -2 }
+          { "label": "But DO you deserve another chance??", "to": "S5_SECOND", "vibeDelta": 0, "mood":"question" },
+          { "label": "Nah, not really, Mister.", "to": "S6_CHOOSE_PATH", "vibeDelta": 5, "intercept": "POP_NEG_LIGHT", "mood":"annoyed" },
+          { "label": "Yeah? talk to me about it.", "to": "S_SM1_TALK", "vibeDelta": -4, "mood":"huh" }
         ]
       },
 
       { "id": "S_SM1_TALK", "type": "single",
-        "prompt": "Be honest... I was a complete jerk, wasn’t I?",
-        "next": "S_SM1B_TALK", "vibeDelta": -3
+        "prompt": "Be honest... I was a complete jerk, wasn't I?",
+        "defExp": "guilty",
+        "next": "S_SM1B_TALK", "vibeDelta": -4
       },
       { "id": "S_SM1B_TALK", "type": "single",
-        "prompt": "And I just brushed past your feelings, didn’t I?",
-        "next": "S_SM1C_TALK", "vibeDelta": -3
+        "prompt": "And I just brushed past your feelings, didn't I?",
+        "defExp": "guilty",
+        "next": "S_SM1C_TALK", "vibeDelta": -4
       },
       { "id": "S_SM1C_TALK", "type": "choices",
-        "prompt": "That isn’t what a friend does. I admit. It's shameful really.\nBut be straight with me: did you expect that from me?",
+        "prompt": "That isn't what a friend does. I admit. It's shameful really.\nBut be straight with me: did you expect that from me?",
+        "defExp": "sad",
         "choices": [
-          { "label": "No.. but you still did.", "to": "S4_PROMISE", "vibeDelta": -4 },
-          { "label": "I did.", "to": "S4_PROMISE", "vibeDelta": -2 },
-          { "label": "I’m still annoyed.", "to": "S6_CHOOSE_PATH", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" }
+          { "label": "No.. but you still did.", "to": "S4_PROMISE", "vibeDelta": -4, "mood":"sadder" },
+          { "label": "I did.", "to": "S4_PROMISE", "vibeDelta": -2, "mood":"angry" },
+          { "label": "I'm still annoyed.", "to": "S6_CHOOSE_PATH", "vibeDelta": 3, "intercept": "POP_NEG_LIGHT", "mood":"annoyed" }
         ]
       },
 
       { "id": "S4_PROMISE", "type": "single",
-        "prompt": "I get you.Here’s what changes from me, starting now:\n1) I won’t put someone else’s actions on you.\n2) I won’t repeat a point after you’ve answered. If I catch it, I stop and own it.\n3) No arguing to win. I listen and respect what you tell me.\n4) If I even hint at that blame again, you can call it and end the chat. I won’t push back.",
-        "next": "S4A_ANCHOR", "vibeDelta": -8
+        "prompt": "I get you.Here's what changes from me, starting now:\n1) I won't put someone else's actions on you.\n2) I won't repeat a point after you've answered. If I catch it, I stop and own it.\n3) No arguing to win. I listen and respect what you tell me.\n4) If I even hint at that blame again, you can call it and end the chat. I won't push back.",
+        "defExp":"understood",
+        "next": "S4A_ANCHOR", "vibeDelta": -10
       },
 
       { "id": "S4A_ANCHOR", "type": "single",
-        "prompt": "I can’t ever deny what I did, and I absolutely can’t justify how I made you feel.. The only thing I can do is be promise.. To be a better friend from now on and prove it with my actions.",
-        "next": "S5_SECOND", "vibeDelta": -4
+        "prompt": "I can't ever deny what I did, and I absolutely can't justify how I made you feel.. The only thing I can do is be promise.. To be a better friend from now on and prove it with my actions.",
+        "defExp": "serious",
+        "next": "S5_SECOND", "vibeDelta": -5
       },
 
       { "id": "S5_SECOND", "type": "choices",
-        "prompt": "I don’t expect you to give me a chance again.. you don’t owe me that.\nBut I will commit to it with everything I’ve got, and prove it.\nReassurance is all I can give, and a little faith is all I can ask for.",
+        "prompt": "I don't expect you to give me a chance again.. you don't owe me that.\nBut I will commit to it with everything I've got, and prove it.\nReassurance is all I can give, and a little faith is all I can ask for.",
         "choices": [
-          { "label": "Yes", "to": "S7_REFLECT_Y", "vibe": 0, "gimmick": "soften", "micro": "let’s move forward" },
-          { "label": "Maybe... convince me", "to": "S4B_PROMISE_PLUS", "vibeDelta": -3, "micro": "more promises?" },
-          { "label": "Not yet", "to": "S6_CHOOSE_PATH", "vibeDelta": 2, "gimmick": "shake", "intercept": "POP_NEG_LIGHT" }
+          { "label": "Yes", "to": "S7_REFLECT_Y", "vibe": 0, "gimmick": "soften", "micro": "let's move forward", "mood":"supportive" },
+          { "label": "Maybe... convince me", "to": "S4B_PROMISE_PLUS", "vibeDelta": 0, "micro": "more promises?", "mood":"curious"},
+          { "label": "Not yet", "to": "S6_CHOOSE_PATH", "vibeDelta": 5, "gimmick": "shake", "intercept": "POP_NEG_LIGHT", "mood":"scared" }
         ]
       },
 
       { "id": "S4B_PROMISE_PLUS", "type": "choices",
-        "prompt": "I’ll back this up. I’ll keep blame out of my mouth, slow down before I speak, and if I slip, I’ll stop and fix it right there… I value this friendship, and I can only prove that by doing better. Please? Just this once...",
+        "prompt": "I'll back this up. I'll keep blame out of my mouth, slow down before I speak, and if I slip, I'll stop and fix it right there… I value this friendship, and I can only prove that by doing better. Please? Just this once...",
+        "defExp": "plead",
         "choices": [
-          { "label": "Hmm.. Maybe.", "to": "S7_REFLECT_OK", "vibe": 5 },
-          { "label": "Still not enough.", "to": "S6_CHOOSE_PATH", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" }
+          { "label": "Hmm.. Maybe.", "to": "S7_REFLECT_OK", "vibe": 35, "mood":"supportive" },
+          { "label": "Still not enough.", "to": "S6_CHOOSE_PATH", "vibeDelta": 5, "intercept": "POP_NEG_LIGHT", "mood":"scared" }
         ]
       },
 
       { "id": "S6_CHOOSE_PATH", "type": "choices",
-        "prompt": "Yeah fair.. I understand. I can make amends the way you want, your shots, my actions... or just give you space and leave this matter here. Your call. I won't blame you.... I've done far too much of that already.",
+        "prompt": "Yeah fair.. I understand. I can make amends the way you want... your shots, my actions... or just give you space and leave this matter here. Your call. I won't blame you.... I've done far too much of that already.",
+        "defExp":"understanding",
         "choices": [
-          { "label": "Small steps", "to": "S_STEPS", "vibeDelta": -4, "gimmick": "dodge", "micro": "you decide" },
-          { "label": "Space for now", "to": "S_SPACE", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" },
-          { "label": "Hm... why should I do either?", "to": "S_HEART", "vibeDelta": -2 }
+          { "label": "Small steps", "to": "S_STEPS", "vibeDelta": -5, "gimmick": "dodge", "micro": "you decide", "mood":"supportive" },
+          { "label": "Space for now", "to": "S_SPACE", "vibeDelta": 3, "intercept": "POP_NEG_LIGHT", "mood":"sad" },
+          { "label": "Hm... why should I do either?", "to": "S_HEART", "vibeDelta": 0, "mood":"curious" }
         ]
       },
 
       { "id": "S_STEPS", "type": "collect",
-        "prompt": "Yes ma'am. Tell me what would help and I’ll stick to it.\nAdd whatever you expect from me. I’ll follow your lead and do exactly as you say.",
+        "prompt": "Yes ma'am. Tell me what would help and I'll stick to it.\nAdd whatever you expect from me. I'll follow your lead and do exactly as you say.",
+        "defExp":"understanding",
         "collect": {
           "min": 1,
           "placeholder": "Add a step…",
           "reactions": [
-            "OOOH! Yeah girl, that’ll teach him!",
+            "OOOH! Yeah girl, that'll teach him!",
             "Devious!!",
             "He better.",
             "He lowkey deserves that.",
@@ -241,145 +288,172 @@
       },
 
       { "id": "S_SPACE", "type": "choices",
-        "prompt": "Yeah, fair. I guess this isn’t easily forgivable after all. I’m here to listen and be better.\nPick up where we left, whenever. Thanks for hearing me at all.",
+        "prompt": "Yeah, fair. I guess this isn't easily forgivable after all. I'm here to listen and be better.\nPick up where we left, whenever. Thanks for hearing me at all.",
         "choices": [
-          { "label": "End for now", "to": "S7_ADMIT_SPACE" },
-          { "label": "Hmmm?", "to": "S_TUG", "micro": "One last thing.." }
+          { "label": "End for now", "to": "S7_ADMIT_SPACE", "mood":"sadder" },
+          { "label": "Hmmm?", "to": "S_TUG", "micro": "One last thing..", "mood":"sad" }
         ]
       },
 
       { "id": "S_TUG", "type": "choices",
-        "prompt": "Yeah, I mean I guess I have to comply to your decision.... But then who’s gonna carry me in those Roblox horror games… \nI hate to admit it, but you’re good... Obviously not that good, but manageable... sorta..",
+        "prompt": "Yeah, I mean I guess I have to comply to your decision.... But then who's gonna carry me in those Roblox horror games… \nI hate to admit it, but you're good... Obviously not that good, but manageable... sorta..",
+        "defExp":"plead",
         "choices": [
-          { "label": "🤣 Yeah? Go on.", "to": "S_PRAISE1", "vibeDelta": -3 },
-          { "label": "🧐 Oh yeah? You're saying you’re better?", "to": "S_REASSURE", "vibeDelta": -2 }
+          { "label": "🤣 Yeah? Go on.", "to": "S_PRAISE1", "vibeDelta": -5, "mood":"care" },
+          { "label": "🧐 Oh yeah? You're saying you're better?", "to": "S_REASSURE", "vibeDelta": -3, "mood":"angry" }
         ]
       },
 
       { "id": "S_REASSURE", "type": "single",
-        "prompt": "Damn right… but deep down, we both know we’re a team... a pretty good one too. Maybe I'm just too good that I can handle your lack of skill, heh.",
-        "next": "S_PRAISE1", "vibeDelta": -2
+        "prompt": "Damn right… but deep down, we both know we're a team... a pretty good one too. Maybe I'm just too good that I can handle your lack of skill, heh.",
+        "defExp":"playful",
+        "next": "S_PRAISE1", "vibeDelta": -3
       },
 
       { "id": "S_PRAISE1", "type": "single",
-        "prompt": "Ugh, fine.. yeah you’re better.",
-        "next": "S_PRAISE1A", "vibeDelta": -2
+        "prompt": "Ugh, fine.. yeah you're better.",
+        "defExp":"annoyed",
+        "next": "S_PRAISE1A", "vibeDelta": -3
       },
 
       { "id": "S_PRAISE1A", "type": "single",
         "prompt": "I mean.. okay.. you have the brains.",
-        "next": "S_PRAISE2", "vibeDelta": -2
+        "defExp":"angry",
+        "next": "S_PRAISE2", "vibeDelta": -3
       },
 
       { "id": "S_PRAISE2", "type": "single",
-        "prompt": "And I’ve got the eyes...\nNo, like, literally.. You cover yours when the monsters show up. I'm definitely the eyes in this dynamic eh?",
-        "next": "S_PRAISE3", "vibeDelta": -2
+        "prompt": "And I've got the eyes...\nNo, like, literally.. You cover yours when the monsters show up. I'm definitely the eyes in this dynamic eh?",
+        "defExp":"hehe",
+        "next": "S_PRAISE3", "vibeDelta": -3
       },
       { "id": "S_PRAISE3", "type": "choices",
-        "prompt": "We do make a pretty good duo against any horror games, don’t we…\nAnd Roblox plus momo chicken is kinda goated.. Think about it… please? Just this once..",
+        "prompt": "We do pretty well against any horror game, don't we…\nAnd Roblox plus momo chicken is kinda goated.. Think about it… please? Just this once..",
+        "defExp":"plead",
         "choices": [
-          { "label": "Hmm.. I mean...", "to": "S_HEART", "vibeDelta": -3 },
-          { "label": "Not yet", "to": "S6_CHOOSE_PATH", "vibeDelta": 1, "intercept": "POP_NEG_LIGHT" }
+          { "label": "Hmm.. I mean...", "to": "S_HEART", "vibeDelta": -4, "mood":"curious"},
+          { "label": "Not yet", "to": "S6_CHOOSE_PATH", "vibeDelta": 3, "intercept": "POP_NEG_LIGHT", "mood":"sad" }
         ]
       },
 
       { "id": "S_HEART", "type": "choices",
-        "prompt": "I just miss our normal, man. I don’t want to lose another friend.. Not because of my stupidity and something that I could have very well prevented. It's all my fault and I can not be any more apologetic. I’m not great at saying what I feel, but that doesn't mean I don't feel.. and right now all I feel is regret and shame.\nI wish I hadn’t said any of it and jeopardized what we had. Safe to say I almost blew everything away... But here you are, deciding to hear me out. I can only ask you to overlook my blunder and give me one last chance. Last means last.\nIf I mess this up again... No. Why talk about it if it's never going to happen.. No room for error after this.. Any error in the room, and I'll be the one out the room...... That made no sense..\nUm... Please? Pretty please? Pretty pleasing pleased piece of peace please?",
+        "prompt": "I just miss our normal, man. I don't want to lose another friend.. Not because of my stupidity and something that I could have very well prevented. It's all my fault and I can not be any more apologetic. I'm not great at saying what I feel, but that doesn't mean I don't feel.. and right now all I feel is regret and shame.\nI wish I hadn't said any of it and jeopardized what we had. Safe to say I almost blew everything away... But here you are, deciding to hear me out. I can only ask you to overlook my blunder and give me one last chance. Last means last.\nIf I mess this up again... No. Why talk about it if it's never going to happen.. No room for error after this.. Any error in the room, and I'll be the one out the room...... That made no sense..\nUm... Please? Pretty please? Pretty pleasing pleased piece of peace please?",
+        "defExp": "sad",
         "choices": [
-          { "label": "Okay. One last chance.", "to": "S7_REFLECT_OK" },
-          { "label": "Compromise: make amends", "to": "S_STEPS" }
+          { "label": "Okay. One last chance.", "to": "S7_REFLECT_OK", "mood":"grateful" },
+          { "label": "Compromise: make amends", "to": "S_STEPS", "mood":"understanding" }
         ]
       },
 
       { "id": "S7_REFLECT_Y", "type": "single",
-        "prompt": "Ahh.. I really am lucky... Or maybe you’re just way too kind? Probably both.\nI don’t know if I deserve it yet, but I’m grateful you’re letting me try.\nYou could’ve left me on read, never replied, even blocked me or roasted me in the group chat (ahem Gubbles 3?)... but you didn’t.\nYou stuck around long enough to hear me out, even if your mind was made up. That means more than I can ever put into words..",
+        "prompt": "Ahh.. I really am lucky... Or maybe you're just way too kind? Probably both.\nI don't know if I deserve it yet, but I'm grateful you're letting me try.\nYou could've left me on read, never replied, even blocked me or roasted me in the group chat (ahem Gubbles 3?)... but you didn't.\nYou stuck around long enough to hear me out, even if your mind was made up. That means more than I can ever put into words..",
+        "defExp": "party",
         "next": "S8_REASSURE_Y"
       },
       { "id": "S8_REASSURE_Y", "type": "single",
-        "prompt": "Let me say this like I should’ve the first time:\nI’m sorry.. properly sorry... for putting it on you and repeating it like a broken record.\nYou told me how it made you feel and I still doubled down. That’s on me.\nNo excuses, no explaining. I own what I did but I do not find it acceptable.\nFrom here on, I slow down before I speak, I listen, and if I slip, I stop and fix it right there.\nYou don’t have to carry my 'special' learning curve. I’ll do that work.\nThank you for giving me a shot to be better.",
+        "prompt": "Let me say this like I should've the first time:\nI'm sorry.. properly sorry... for putting it on you and repeating it like a broken record.\nYou told me how it made you feel and I still doubled down. That's on me.\nNo excuses, no explaining. I own what I did but I do not find it acceptable.\nFrom here on, I slow down before I speak, I listen, and if I slip, I stop and fix it right there.\nYou don't have to carry my 'special' learning curve. I'll do that work.\nThank you for giving me a shot to be better.",
+        "defExp": "understood",
         "next": "S9_VULN_Y"
       },
       { "id": "S9_VULN_Y", "type": "single",
-        "prompt": "You honestly may have stopped this remorse from turning into a lifelong regret.\nI mean, it’s still there, remorse doesn’t just vanish.. but it feels lighter, like I can finally start making this right.",
+        "prompt": "You honestly may have stopped this remorse from turning into a lifelong regret.\nI mean, it's still there, remorse doesn't just vanish.. but it feels lighter, like I can finally start making this right.",
+        "defExp":"grateful",
         "next": "S10_CALLBACK_Y"
       },
       { "id": "S10_CALLBACK_Y", "type": "single",
-        "prompt": "You know how we just clicked stupid fast? It probably was my super awesome charismatic self... (okay, maybe 30% that).\nEither way, I like being there.. even if I'm just there. I want to keep this—properly.\nAnd hey, we both know we kinda cracked at Roblox when we’re not beefing.",
+        "prompt": "I mean the way I just clicked with everybody? It probably was my super awesome charismatic self... (okay, maybe 30% that).\nEither way, I like being there... even if I'm just... there. I want to keep this... Properly.\nAnd hey, I'm kinda cracked at Roblox... especially when I'm not beefing with a friend.",
+        "defExp":"hehe",
         "next": "S11_INVITE_Y"
       },
       { "id": "S11_INVITE_Y", "type": "single",
-        "prompt": "Redemption arc starts now, trust and believe. Roblox horror run soon? Even if its 8 am, bring it on! I’ll actually show up on time this round... Maybe.\nEither way… thanks for the second chance.\nI won’t waste it.",
+        "prompt": "Redemption arc starts now! trust and believe yo. \nRoblox horror run soon? Even if its 8 am, bring it on!!! I'll actually show up on time this round... Maybe...\nEither way… thanks for the second chance.\nI won't waste it.",
+        "defExp":"understanding",
         "next": "E_YAY"
       },
 
       { "id": "S7_REFLECT_OK", "type": "single",
-        "prompt": "I really am lucky… and you’re kind for even entertaining this.\nI heard what you asked of me. This isn’t about using big, heavy words anymore... it’s about following through with them. Backing them up.",
+        "prompt": "I really am lucky… and you're kind for even entertaining this.\nI heard what you asked of me. This isn't about using big, heavy words anymore... it's about following through with them. Backing them up.",
+        "defExp": "grateful",
         "next": "S8_REASSURE_OK"
       },
       { "id": "S8_REASSURE_OK", "type": "single",
-        "prompt": "Proper apology, no shortcuts:\nI’m sorry for putting blame on you and then looping it like a broken record. Really ended up like a clown... One of the ones that scare you and make you feel sad.\nBut now.. I’ll do exactly what we laid out: keep blame out of my mouth. Slow down before I speak. And just listen for once.\nIf I even EVER hint at that scummy behaviour again, I stop and own it right there.\nYou shouldn’t have to teach me twice. I’ll be the one to check myself.\nThank you for giving me room to prove this. Not with talk, but with consistency.",
+        "prompt": "Proper apology, no shortcuts:\nI'm sorry for putting blame on you and then looping it like a broken record. Really ended up like a clown... One of the ones that scare you and make you feel sad.\nBut now.. I'll do exactly what we laid out: keep blame out of my mouth. Slow down before I speak. And just listen for once.\nIf I even EVER hint at that scummy behaviour again, I stop and own it right there.\nYou shouldn't have to teach me twice. I'll be the one to check myself.\nThank you for giving me room to prove this. Not with talk, but with consistency.",
+        "defExp": "understood",
         "next": "S9_VULN_OK"
       },
       { "id": "S9_VULN_OK", "type": "single",
-        "prompt": "This honestly relieves me. I was spiraling about losing a good friend over my own stubbornness.\nI’m more than convinced that you're a friend worth keeping around now... And I will eventually prove the same for myself.",
+        "prompt": "This honestly relieves me. I was spiraling about losing a good friend over my own stubbornness.\nI'm more than convinced that you're a friend worth keeping around now... And I will eventually prove the same for myself.",
+        "defExp": "grin",
         "next": "S10_CALLBACK_OK"
       },
       { "id": "S10_CALLBACK_OK", "type": "single",
-        "prompt": "And hey, we were good friends for a reason! (Probably my super fun charismatic personality) And even if I messed the note...\nI want to play it right this time. And yeah… Roblox horror? Still elite against any level.",
+        "prompt": "And hey, we were friends for a reason! (Probably my super fun charismatic personality) And even if I messed the note...\nI want to play it right this time. And yeah… Roblox horror? Still elite against any level.",
+        "defExp": "understanding",
         "next": "S11_INVITE_OK"
       },
       { "id": "S11_INVITE_OK", "type": "single",
-        "prompt": "Thanks for letting me earn this. Roblox run soon? Not 8 am though man, you know I get late... (you do too shh)",
+        "prompt": "Thanks for letting me earn this. Roblox run soon? Not 8 am though man, \nyou know I get late... (you do too shh)",
+        "defExp":"hehe",
         "next": "E_SOFT_OK"
       },
 
       { "id": "S7_REFLECT_STEPS", "type": "single",
-        "prompt": "Thank you. Laying those steps out actually helps me No guessing games, no spinning in circles.\nI’m lucky you even bothered to guide me instead of just walking away.",
+        "prompt": "Thank you. Laying those steps out actually helps me No guessing games, no spinning in circles.\nI'm lucky you even bothered to guide me instead of just walking away.",
+        "defExp":"understanding",
         "next": "S8_REASSURE_STEPS"
       },
       { "id": "S8_REASSURE_STEPS", "type": "single",
-        "prompt": "Real apology, with specifics:\nI’m sorry for blaming you and repeating it after you answered. And I'm sorry for continuously blaming you like a broken record on repeat.. that didn't make any sense either. That was on me.\nI’ll follow what you wrote - point for point. No backtalk, no ‘but’s. If I slip, I stop and fix it in the moment.\nI’ll check myself without making you do the emotional labor.\nYou set the conditions; I’ll meet it.",
+        "prompt": "Real apology, with specifics:\nI'm sorry for blaming you and repeating it after you answered. And I'm sorry for continuously blaming you like a broken record on repeat.. that didn't make any sense either. That was on me.\nI'll follow what you wrote - point for point. No backtalk, no 'but's. If I slip, I stop and fix it in the moment.\nI'll check myself without making you do the emotional labor.\nYou set the conditions; I'll meet it.",
+        "defExp":"sad",
         "next": "S9_VULN_STEPS"
       },
       { "id": "S9_VULN_STEPS", "type": "single",
-        "prompt": "Honestly, this took the burden off the regret.\nIt still stings that I did that.. but now I’ve got a clear way to make it right, and I’m taking it.",
+        "prompt": "Honestly, this took the burden off the regret.\nIt still stings that I did that.. but now I've got a clear way to make it right, and I'm taking it.",
+        "defExp":"grateful",
         "next": "S10_CALLBACK_STEPS"
       },
       { "id": "S10_CALLBACK_STEPS", "type": "single",
-        "prompt": "I mean, if you think of it, we can have so much fun with something as small as just playing games.\nI’d like to get back to that as soon as possible, I've got my roblox progress on hold... Don't wanna be a traitor, right?",
+        "prompt": "I mean, if you think of it, we can have so much fun with something as small as just playing games.\nI'd like to get back to that as soon as possible, I've got my roblox progress on hold... Don't wanna be a traitor, right?",
+        "defExp": "cool",
         "next": "S11_INVITE_STEPS"
       },
       { "id": "S11_INVITE_STEPS", "type": "single",
-        "prompt": "Small steps, like you said.\nRoblox run soon though? Even if its 8 am.. Won't make you wait.. no promises here, though :P",
+        "prompt": "Small steps, like you said.\nRoblox run soon though? Even if its 8 am.. Won't make you wait... no promises here tho :P",
+        "defExp":"hehe",
         "next": "E_SOFT_STEPS"
       },
 
       { "id": "S7_ADMIT_SPACE", "type": "single",
-        "prompt": "You’re valid to take space. I pushed a line I shouldn’t have, and I did it again. I don’t expect you to carry that for me.\nI’m sorry.. for real. I’ll do better out of your way.",
+        "prompt": "You're valid to take space. I pushed a line I shouldn't have, and I did it again. I don't expect you to carry that for me.\nI'm sorry.. for real. I'll do better out of your way.",
+        "defExp": "supportive",
         "next": "S8_OPEN_SPACE"
       },
       { "id": "S8_OPEN_SPACE", "type": "single",
-        "prompt": "And well no pressure, no expectations. Door’s open whenever you want to talk, or whenever you feel like giving me a chance.\nIf not, I still appreciate that you heard me at all.\n(And if the day ever comes again after this talk… our Roblox duo still has unfinished business.)",
+        "prompt": "And well no pressure, no expectations. Door's open whenever you want to talk, or whenever you feel like giving me a chance.\nIf not, I still appreciate that you heard me at all.\n(And if the day ever comes again after this talk… our Roblox duo still has unfinished business.)",
         "next": "E_SPACE"
       },
 
       { "id": "E_YAY", "type": "ending",
-        "prompt": "Thank you for giving me another chance.\nI’m not asking you to forget it. I’m promising you won’t face that from me again.\nThanks for trusting me. I’ll be a friend you can trust. A friend who's got your back.",
+        "prompt": "Thank you for giving me another chance.\nI'm not asking you to forget it. I'm promising you won't face that from me again.\nThanks for trusting me. I'll be a friend you can trust. A friend who's got your back.",
+        "defExp": "grateful",
         "effects": ["confetti","lockUI"]
       },
 
       { "id": "E_SOFT_OK", "type": "ending",
-        "prompt": "Thanks really. I’ll prove it and keep myself in check.",
+        "prompt": "Thanks really. I'll prove it and keep myself in check.",
+        "defExp": "grateful",
         "effects": ["softConfetti","lockUI"]
       },
 
       { "id": "E_SOFT_STEPS", "type": "ending",
-        "prompt": "Small steps. I’ll stick to what you wrote. Thanks for giving me a way forward and a chance to prove myself.",
+        "prompt": "Small steps. I'll stick to what you wrote. Thanks for giving me a way forward and a chance to prove myself.",
+        "defExp": "understanding",
         "effects": ["softGlow","lockUI"]
       },
 
       { "id": "E_SPACE", "type": "ending",
         "prompt": "Thanks for hearing me out at all. Door's always open.",
+        "defExp": "understanding",
         "effects": ["blackout"]
       }
     ]
@@ -393,8 +467,14 @@
     <div id="app">
       <!-- Central letter -->
       <div class="card" id="card">
-        <!-- emoji (updates with vibe) -->
-        <img id="vibeEmoji" class="vibe-emoji" alt="vibe" src="assets/neutral.png" />
+        <div class = "character-frame">
+          <div class = "character-image">
+            <img id = "kuromiExpression" src="assets/kuromi/curious.gif" alt="Kuromi">
+          </div>
+          <div id = "kuromispeech" class = "speech-bubble">
+            What's all this about?
+          </div>
+        </div>
 
         <!-- Back -->
         <button id="backBtn" class="icon-btn back-btn" title="Back" aria-label="Back">🔙</button>
